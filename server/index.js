@@ -1,30 +1,9 @@
 const connect = require("./db/dbConfig");
+// const QUESTIONS_JSON = require("./questionsData");
 const question = require("./model/questions");
 const user = require("./model/user");
 
 connect();
-
-// new question
-const questionObj = {
-  language: "English",
-  questionText: "lorem ipsum doller?",
-  difficulty: 2,
-  options: [
-    { optionText: "lorem ipsum", optionId: 1 },
-    { optionText: "lorem ipsum", optionId: 2 },
-    { optionText: "lorem ipsum", optionId: 3 },
-    { optionText: "lorem ipsum", optionId: 4 },
-  ],
-  correctOption: 2,
-};
-
-// new user
-const userObj = {
-  username: "mav",
-  email: "mudit2304@gmail.com",
-  selectedLanguage: "English",
-  proficiencyLevel: 1,
-};
 
 // Save the exercise to the database
 async function createNewQuestion(obj) {
@@ -46,5 +25,5 @@ async function createNewUser(obj) {
   }
 }
 
-// createNewQuestion(questionObj);
-createNewUser(userObj);
+// createNewQuestion(QUESTIONS_JSON);
+// createNewUser(userObj);
