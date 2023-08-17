@@ -2,29 +2,22 @@ const mongoose = require("mongoose");
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: [true, "Please provide a username."],
-    unique: true,
-  },
   email: {
     type: String,
     required: true,
     unique: true,
+    set: (value) => value.toLowerCase(),
   },
   createdAt: {
     type: Date,
     default: () => Date.now(),
   },
-  // password: {
-  //   type: String,
-  //   required: true,
-  // },
   selectedLanguage: {
     type: String,
     required: true,
+    set: (value) => value.toLowerCase(),
   },
-  correctAnswers: [
+  attemptedQuestions: [
     {
       questionId: {
         type: mongoose.SchemaTypes.ObjectId,
@@ -32,6 +25,9 @@ const userSchema = new mongoose.Schema({
       },
       language: {
         type: String,
+      },
+      status: {
+        type: Boolean,
       },
     },
   ],
