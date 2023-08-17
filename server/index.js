@@ -1,29 +1,23 @@
-const connect = require("./db/dbConfig");
-// const QUESTIONS_JSON = require("./questionsData");
-const question = require("./model/questions");
-const user = require("./model/user");
+const dotenv = require("dotenv").config();
+// const connect = require("./db/dbConfig");
+const express = require("express");
+const apiQuestion = require("./routes/getQuestionRoute");
+const apiCheckAnswer = require("./routes/checkAnswer");
+const apiUser = require("./routes/user");
+const { errorHandler } = require("./middleware/errorMiddleware");
 
-connect();
+const port = process.env.PORT || 8000;
+const app = express();
 
-// Save the exercise to the database
-async function createNewQuestion(obj) {
-  try {
-    const newQuestion = await question.create(obj);
-    console.log(newQuestion);
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+// For POST request JSON data
+app.use(express.json());
 
-// Create a new user in the DB
-async function createNewUser(obj) {
-  try {
-    const newUser = await user.create(obj);
-    console.log(newUser);
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+app.use("/api/question", apiQuestion);
+app.use("/api/checkanswer", apiCheckAnswer);
+app.use("/api/user", apiUser);
 
-// createNewQuestion(QUESTIONS_JSON);
-// createNewUser(userObj);
+// Overriding the default express error handling
+app.use(errorHandler);
+
+app.listen(port, () => console.log(`Server running on port: ${port}`));
+// connect();
