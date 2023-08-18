@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useCtx } from "../store/userContext";
 
 function Signup() {
-  const [detail, setDetail] = useState({ email: "", password: "" });
+  const [detail, setDetail] = useState({
+    email: "",
+    password: "",
+    language: "",
+  });
   const [validPassword, setValidPassword] = useState({
     valid: false,
     active: false,
   });
   const [responseData, setResponseData] = useState(null);
+  const navigate = useNavigate();
   const ctx = useCtx();
+
   const VALID_PASSWORD =
     "A valid password must contain 8 alphanumeric characters with atleast 1 number(0-9) & alphabet(a-z).";
   useEffect(() => {
@@ -29,6 +35,7 @@ function Signup() {
   async function submitHandler(e) {
     e.preventDefault();
     const laodingToast = toast.loading("Signing up...");
+    console.log("language:", detail.language);
     const data = {
       email: detail.email,
       password: detail.password,
@@ -52,9 +59,19 @@ function Signup() {
         throw new Error(jsonResponse.error.message);
       }
       setResponseData(jsonResponse);
+      const obj = {
+        email: detail.email,
+        token: jsonResponse.localId,
+      };
+      await ctx.signup(obj);
       toast.success("Signed up successfully!", {
         id: laodingToast,
       });
+      setTimeout(() => {
+        navigate(
+          `/${localStorage.getItem("userId")}/game-homepage/${detail.language}`
+        );
+      }, 2000);
       console.log("successfully signed up!", jsonResponse);
     } catch (error) {
       console.log(error.message);
@@ -100,6 +117,16 @@ function Signup() {
           ) : (
             <></>
           )}
+          <select
+            name="language"
+            id="pet-select"
+            onChange={(e) => setDetail({ ...detail, language: e.target.value })}
+            required
+          >
+            <option value="">Choose a language</option>
+            <option value="english">English</option>
+            <option value="hindi">Hindi</option>
+          </select>
           <button
             type="submit"
             disabled={validPassword.active && !validPassword.valid}

@@ -1,9 +1,12 @@
 const express = require("express");
-const { setLanguage, getDetails } = require("../controller/user");
+const { verifyUser, signup, updateLanguage } = require("../controller/user");
 
 const router = express.Router();
 
-router.post("/setlan", setLanguage);
-router.get("/", getDetails);
+router.get("/verify/:token", verifyUser);
+router.post("/signup", signup);
+router.get("/login/:token", verifyUser);
+router.post("/updatelan", updateLanguage);
+// router.get("/", getDetails);
 
 module.exports = router;

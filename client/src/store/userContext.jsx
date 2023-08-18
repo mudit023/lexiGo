@@ -1,19 +1,20 @@
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext } from "react";
 
 // context Object
 export const contextObj = {
   isAuthenticated: false,
+  authToken: "",
   isAdmin: false,
-  login: () => {},
-  signup: () => {},
+  login: async (token) => {},
+  signup: async ({ email, token }) => {},
   logout: () => {},
   user: {
     email: "",
     score: "",
     progress: "",
     language: "",
+    userId: "",
   },
-  setUser: () => {},
 };
 // Creating the user context
 export const UserContext = createContext(contextObj);

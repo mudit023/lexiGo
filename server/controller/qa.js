@@ -17,23 +17,36 @@ const getQuestion = async (req, res) => {
   }).limit(10);
   // To get a random question among 1-10
   const random = Math.floor(Math.random() * 10);
-  res.status(200).json(questions[random]);
+  if (questions.length > 0) res.status(200).json(questions[random]);
+  else res.status(200).json({ message: "No questions found!" });
 };
 
 // For internal use. To update user stats after right ans
-const updateUserStats = async (userId, increment, attemptedObj) => {
+const updateUserStats = async (userId, increment, attemptedObj, lan) => {
   try {
     const user = await User.findById(userId);
     if (!user) {
       res.status(400).json({ error: "User not found!" });
       return;
     }
-    user.score += increment;
-    const newScore = user.score;
-    const newPro = proficiencyCalculator(newScore).proficiencyLevel;
-    user.proficiencyLevel = newPro;
-    user.attemptedQuestions.push(attemptedObj);
+    if (user.score.length === 0) {
+      user.score.push({ language: lan, score: increment });
+      user.proficiencyLevel.push({ language: lan, level: 1 });
+      user.progress.push({ language: lan, count: 1 });
+    } else {
+      const scoreObj = user.score.find((obj) => obj.language === lan);
+      // console.log("score obj***", scoreObj);
+      scoreObj.score += increment;
+      const newScore = scoreObj.score;
 
+      const newPro = proficiencyCalculator(newScore).proficiencyLevel;
+      const proObj = user.proficiencyLevel.find((obj) => obj.language === lan);
+      proObj.level = newPro;
+
+      const newCnt = user.progress.find((obj) => obj.language === lan);
+      newCnt.count += 1;
+    }
+    user.attemptedQuestions.push(attemptedObj);
     const updatedUser = await user.save();
     console.log("User updated successfully!");
   } catch (error) {
@@ -56,6 +69,7 @@ const getNextQue = async (
     const nextQueDifficulty = temp[random];
     const allQue = await Question.find({
       difficulty: nextQueDifficulty,
+      language: language,
     });
     const attempted = await User.findById(userId).select("attemptedQuestions");
     let nextQue = {};
@@ -118,7 +132,12 @@ const checkAnswer = async (req, res) => {
         status: true,
       };
       const increment = calculateScore(que.difficulty);
-      await updateUserStats(userId, increment, attemptedObj);
+      await updateUserStats(
+        userId,
+        increment,
+        attemptedObj,
+        req.body.data.language
+      );
       const nextQue = await getNextQue(
         que.difficulty,
         true,
@@ -135,7 +154,7 @@ const checkAnswer = async (req, res) => {
         language: req.body.data.language,
         status: false,
       };
-      await updateUserStats(userId, 0, attemptedObj);
+      await updateUserStats(userId, 0, attemptedObj, req.body.data.language);
       const nextQue = await getNextQue(
         que.difficulty,
         false,
