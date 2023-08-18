@@ -3,7 +3,7 @@ import { createContext, useContext } from "react";
 // context Object
 export const contextObj = {
   isAuthenticated: false,
-  authToken: "",
+  authId: "",
   isAdmin: false,
   login: async (token) => {},
   signup: async ({ email, token }) => {},

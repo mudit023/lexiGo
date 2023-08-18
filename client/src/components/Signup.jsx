@@ -29,6 +29,12 @@ function Signup() {
     }
   }, [detail.password]);
 
+  useEffect(() => {
+    if (localStorage.getItem("isAuthenticated")) {
+      navigate("/game");
+    }
+  }, []);
+
   function focusHandler() {
     setValidPassword({ ...validPassword, active: true });
   }
@@ -62,15 +68,14 @@ function Signup() {
       const obj = {
         email: detail.email,
         token: jsonResponse.localId,
+        language: detail.language,
       };
       await ctx.signup(obj);
       toast.success("Signed up successfully!", {
         id: laodingToast,
       });
       setTimeout(() => {
-        navigate(
-          `/${localStorage.getItem("userId")}/game-homepage/${detail.language}`
-        );
+        navigate(`/game`);
       }, 2000);
       console.log("successfully signed up!", jsonResponse);
     } catch (error) {

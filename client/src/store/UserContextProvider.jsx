@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { UserContext } from "./userContext";
 
 function UserContextProvider(props) {
-  const [authToken, setAuthToken] = useState("");
+  const [authId, setAuthId] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState({});
   useEffect(() => {
-    if (localStorage.getItem("authToken")) {
-      verifyUser(localStorage.getItem("authToken"));
+    if (localStorage.getItem("authId")) {
+      verifyUser(localStorage.getItem("authId"));
     } else {
-      setAuthToken("");
+      setAuthId("");
       setIsAdmin(false);
       setIsAuthenticated(false);
       localStorage.setItem("isAuthenticated", false);
@@ -20,7 +20,7 @@ function UserContextProvider(props) {
 
   async function login(token) {
     try {
-      const res = await fetch(`api/user/login/${token}`);
+      const res = await fetch(`http://localhost:8000/api/user/verify/${token}`);
       const jsonResponse = await res.json();
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error.message);
@@ -35,8 +35,8 @@ function UserContextProvider(props) {
       if (jsonResponse.code === 1) {
         setIsAdmin(false);
         setIsAuthenticated(true);
-        setAuthToken(token);
-        localStorage.setItem("authToken", token);
+        setAuthId(token);
+        localStorage.setItem("authId", token);
         localStorage.setItem("isAuthenticated", true);
         localStorage.setItem("isAdmin", false);
         localStorage.setItem("userId", jsonResponse.userId);
@@ -54,8 +54,8 @@ function UserContextProvider(props) {
       if (jsonResponse.code === 2) {
         setIsAdmin(true);
         setIsAuthenticated(true);
-        setAuthToken(token);
-        localStorage.setItem("authToken", token);
+        setAuthId(token);
+        localStorage.setItem("authId", token);
         localStorage.setItem("isAuthenticated", true);
         localStorage.setItem("isAdmin", true);
         localStorage.setItem("userId", jsonResponse.userId);
@@ -75,12 +75,12 @@ function UserContextProvider(props) {
     }
   }
   function logout() {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("authId");
     localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("isAdmin");
     localStorage.removeItem("userId");
     localStorage.removeItem("language");
-    setAuthToken("");
+    setAuthId("");
     setIsAdmin(false);
     setIsAuthenticated(false);
   }
@@ -92,7 +92,7 @@ function UserContextProvider(props) {
       language: language,
     };
     try {
-      const res = await fetch(`api/user/signup`, {
+      const res = await fetch(`http://localhost:8000/api/user/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -113,8 +113,8 @@ function UserContextProvider(props) {
       if (jsonResponse.code === 1) {
         setIsAdmin(false);
         setIsAuthenticated(true);
-        setAuthToken(token);
-        localStorage.setItem("authToken", token);
+        setAuthId(token);
+        localStorage.setItem("authId", token);
         localStorage.setItem("isAuthenticated", true);
         localStorage.setItem("isAdmin", false);
         localStorage.setItem("userId", jsonResponse.userId);
@@ -143,7 +143,7 @@ function UserContextProvider(props) {
       if (jsonResponse.code === 0) {
         setIsAdmin(false);
         setIsAuthenticated(false);
-        localStorage.removeItem("authToken");
+        localStorage.removeItem("authId");
         localStorage.setItem("isAuthenticated", false);
         localStorage.setItem("isAdmin", false);
         console.log("Error:User not found!");
@@ -185,7 +185,7 @@ function UserContextProvider(props) {
 
   const obj = {
     isAuthenticated: isAuthenticated,
-    authToken: authToken,
+    authId: authId,
     isAdmin: isAdmin,
     login: login,
     signup: signup,

@@ -13,6 +13,7 @@ function Login() {
   const ctx = useCtx();
   const VALID_PASSWORD =
     "A valid password must contain 8 alphanumeric characters with atleast 1 number(0-9) & alphabet(a-z).";
+
   useEffect(() => {
     const password = detail.password;
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
@@ -22,6 +23,12 @@ function Login() {
       setValidPassword({ ...validPassword, valid: false });
     }
   }, [detail.password]);
+
+  useEffect(() => {
+    if (localStorage.getItem("isAuthenticated")) {
+      navigate("/game");
+    }
+  }, []);
 
   function focusHandler() {
     setValidPassword({ ...validPassword, active: true });

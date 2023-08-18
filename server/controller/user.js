@@ -101,7 +101,7 @@ const updateLanguage = async (req, res) => {
 
 // @desc    to get user details
 // @route   POST /api/user/signup
-// @payload {email, username, authId, language}
+// @payload {email, authId, language}
 // @access  Private
 const signup = async (req, res) => {
   try {

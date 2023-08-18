@@ -1,6 +1,7 @@
 const dotenv = require("dotenv").config();
 const connect = require("./db/dbConfig");
 const express = require("express");
+const cors = require("cors");
 const apiQuestion = require("./routes/getQuestionRoute");
 const apiCheckAnswer = require("./routes/checkAnswer");
 const apiUser = require("./routes/user");
@@ -10,7 +11,7 @@ const { errorHandler } = require("./middleware/errorMiddleware");
 // const User = require("./model/user");
 
 const port = process.env.PORT || 8000;
-const app = express();
+const app = express({});
 
 // connect();
 // async function run2() {
@@ -18,6 +19,11 @@ const app = express();
 // }
 // run2();
 // For POST request JSON data
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 app.use(express.json());
 
 app.use("/api/user", apiUser);
