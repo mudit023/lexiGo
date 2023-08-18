@@ -20,7 +20,7 @@ const verifyUser = async (req, res) => {
         score: user.score,
         progress: user.progress,
         language: user.selectedLanguage,
-        userId: user.userId,
+        userId: user._id,
         level: user.proficiencyLevel,
         code: 2,
         message: "Admin found!",
@@ -32,7 +32,7 @@ const verifyUser = async (req, res) => {
         score: user.score,
         progress: user.progress,
         language: user.selectedLanguage,
-        userId: user.userId,
+        userId: user._id,
         level: user.proficiencyLevel,
         code: 1,
         message: "User found!",
@@ -80,7 +80,8 @@ const updateLanguage = async (req, res) => {
           level: 1,
           progress: 0,
         });
-      } else {
+      }
+      if (scoreObj) {
         await user.save();
         res.status(200).json({
           code: 1,

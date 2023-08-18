@@ -1,20 +1,49 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import img1 from "../assets/human.png";
 
 function HomePage() {
   return (
-    <div>
-      <div
-        className={`w-full bg-cyan-100 font-semibold rounded mt-2 py-1 px-2`}
-      >
-        <Link to={"/signup"}>Signup</Link>
-      </div>
-      <div
-        className={`w-full bg-cyan-100 font-semibold rounded mt-2 py-1 px-2`}
-      >
-        <Link to={"/login"}>login</Link>
-      </div>
-    </div>
+    <main>
+      <section className="flex justify-center items-center sm:gap-5 px-3">
+        <div className="flex flex-col gap-6 justify-center sm:items-start items-center">
+          <div className="flex flex-col justify-center sm:items-start items-center">
+            <h1 className="sm:text-7xl text-3xl font-bold text-green-200">
+              Be a multi-lingual
+            </h1>
+            <p className="sm:max-w-[70%] max-w-[90%] sm:text-lg text-sm mt-3 sm:text-left text-center">
+              LexiGo is the only app you need to learn your second language. An
+              exciting way to learn a new laguage!
+            </p>
+          </div>
+          <div className="flex justify-center items-center gap-2">
+            <Link
+              to={`${
+                localStorage.getItem("isAuthenticated") === "true"
+                  ? "/game"
+                  : "/login"
+              }`}
+              className="bg-green-700 font-semibold rounded py-1 px-2 sm:text-xl"
+            >
+              Start Now
+            </Link>
+            {localStorage.getItem("isAuthenticated") === "true" ? (
+              <Link
+                to={"/user"}
+                className="bg-yellow-700 font-semibold rounded py-1 px-2 sm:text-xl"
+              >
+                Your Stats
+              </Link>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+        <div className="sm:block hidden">
+          <img src={img1} width={"450px"} />
+        </div>
+      </section>
+    </main>
   );
 }
 

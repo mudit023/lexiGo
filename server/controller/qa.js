@@ -17,8 +17,9 @@ const getQuestion = async (req, res) => {
   }).limit(10);
   // To get a random question among 1-10
   const random = Math.floor(Math.random() * 10);
-  if (questions.length > 0) res.status(200).json(questions[random]);
-  else res.status(200).json({ message: "No questions found!" });
+  if (questions.length > 0)
+    res.status(200).json({ code: 1, data: questions[random] });
+  else res.status(200).json({ message: "No questions found!", code: 0 });
 };
 
 // For internal use. To update user stats after right ans
@@ -116,58 +117,53 @@ const getNextQue = async (
 // @access  Private
 const checkAnswer = async (req, res) => {
   try {
-    if (!req.body.data) {
+    if (!req.body) {
       res.status(400);
       throw new Error("Please send the question and option JSON.");
     }
-    const que = await Question.findById(req.body.data.questionId);
-    const isCorrect = que.correctOption === req.body.data.selectedId;
-    const userId = req.body.data.userId;
+    const que = await Question.findById(req.body.questionId);
+    const isCorrect = que.correctOption === req.body.selectedId;
+    const userId = req.body.userId;
 
     // If answer is correct update the progress, score, and proficiency level
     if (isCorrect) {
       const attemptedObj = {
-        questionId: req.body.data.questionId,
-        language: req.body.data.language,
+        questionId: req.body.questionId,
+        language: req.body.language,
         status: true,
       };
       const increment = calculateScore(que.difficulty);
-      await updateUserStats(
-        userId,
-        increment,
-        attemptedObj,
-        req.body.data.language
-      );
+      await updateUserStats(userId, increment, attemptedObj, req.body.language);
       const nextQue = await getNextQue(
         que.difficulty,
         true,
-        req.body.data.questionId,
+        req.body.questionId,
         userId,
-        req.body.data.language
+        req.body.language
       );
       res
         .status(200)
         .json({ data: nextQue, message: "Correct answer!", code: 1 });
     } else {
       const attemptedObj = {
-        questionId: req.body.data.questionId,
-        language: req.body.data.language,
+        questionId: req.body.questionId,
+        language: req.body.language,
         status: false,
       };
-      await updateUserStats(userId, 0, attemptedObj, req.body.data.language);
+      await updateUserStats(userId, 0, attemptedObj, req.body.language);
       const nextQue = await getNextQue(
         que.difficulty,
         false,
-        req.body.data.questionId,
+        req.body.questionId,
         userId,
-        req.body.data.language
+        req.body.language
       );
       res
         .status(200)
         .json({ data: nextQue, message: "Incorrect answer!", code: 0 });
     }
   } catch (error) {
-    console.log(error);
+    res.json({ error: error.message });
   }
 };
 

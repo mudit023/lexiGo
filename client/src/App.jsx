@@ -7,18 +7,22 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import UserContextProvider from "./store/UserContextProvider";
 import Game from "./components/Game";
+import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <UserContextProvider>
+      <Navigation />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/game" element={<Game />} />
-        <Route path="/user/:id" element={<UserPage />} />
+        <Route path="/user" element={<UserPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      {/* <Footer /> */}
     </UserContextProvider>
   );
 }

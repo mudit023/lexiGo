@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { UserContext } from "./userContext";
+import { useNavigate } from "react-router-dom";
 
 function UserContextProvider(props) {
   const [authId, setAuthId] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("authId")) {
       verifyUser(localStorage.getItem("authId"));
@@ -41,6 +43,7 @@ function UserContextProvider(props) {
         localStorage.setItem("isAdmin", false);
         localStorage.setItem("userId", jsonResponse.userId);
         localStorage.setItem("language", jsonResponse.language);
+        localStorage.setItem("username", jsonResponse.email.split("@")[0]);
         const userData = {
           email: jsonResponse.email,
           score: jsonResponse.score,
@@ -60,6 +63,7 @@ function UserContextProvider(props) {
         localStorage.setItem("isAdmin", true);
         localStorage.setItem("userId", jsonResponse.userId);
         localStorage.setItem("language", jsonResponse.language);
+        localStorage.setItem("username", jsonResponse.email.split("@")[0]);
         const userData = {
           email: jsonResponse.email,
           score: jsonResponse.score,
@@ -76,13 +80,17 @@ function UserContextProvider(props) {
   }
   function logout() {
     localStorage.removeItem("authId");
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("isAdmin");
+    localStorage.setItem("isAuthenticated", false);
+    localStorage.setItem("isAdmin", false);
     localStorage.removeItem("userId");
     localStorage.removeItem("language");
+    localStorage.removeItem("username");
     setAuthId("");
     setIsAdmin(false);
     setIsAuthenticated(false);
+    setTimeout(() => {
+      navigate("/");
+    }, 500);
   }
 
   async function signup({ email, token, language }) {
@@ -153,6 +161,7 @@ function UserContextProvider(props) {
         setIsAuthenticated(true);
         localStorage.setItem("isAuthenticated", true);
         localStorage.setItem("isAdmin", false);
+        localStorage.setItem("username", jsonResponse.email.split("@")[0]);
         const userData = {
           email: jsonResponse.email,
           score: jsonResponse.score,
@@ -168,6 +177,7 @@ function UserContextProvider(props) {
         setIsAuthenticated(true);
         localStorage.setItem("isAuthenticated", true);
         localStorage.setItem("isAdmin", true);
+        localStorage.setItem("username", jsonResponse.email.split("@")[0]);
         const userData = {
           email: jsonResponse.email,
           score: jsonResponse.score,

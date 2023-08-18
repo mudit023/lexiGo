@@ -30,7 +30,7 @@ function Signup() {
   }, [detail.password]);
 
   useEffect(() => {
-    if (localStorage.getItem("isAuthenticated")) {
+    if (localStorage.getItem("isAuthenticated") === "true") {
       navigate("/game");
     }
   }, []);
@@ -124,7 +124,7 @@ function Signup() {
           )}
           <select
             name="language"
-            id="pet-select"
+            id="lan-select"
             onChange={(e) => setDetail({ ...detail, language: e.target.value })}
             required
           >

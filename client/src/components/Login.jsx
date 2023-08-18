@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useCtx } from "../store/userContext";
 
@@ -10,6 +10,7 @@ function Login() {
     active: false,
   });
   const [responseData, setResponseData] = useState(null);
+  const navigate = useNavigate();
   const ctx = useCtx();
   const VALID_PASSWORD =
     "A valid password must contain 8 alphanumeric characters with atleast 1 number(0-9) & alphabet(a-z).";
@@ -25,7 +26,7 @@ function Login() {
   }, [detail.password]);
 
   useEffect(() => {
-    if (localStorage.getItem("isAuthenticated")) {
+    if (localStorage.getItem("isAuthenticated") === "true") {
       navigate("/game");
     }
   }, []);
@@ -59,9 +60,13 @@ function Login() {
         throw new Error(jsonResponse.error.message);
       }
       setResponseData(jsonResponse);
+      await ctx.login(jsonResponse.localId);
       toast.success("Logged in successfully!", {
         id: laodingToast,
       });
+      setTimeout(() => {
+        navigate("/game");
+      }, 2000);
       console.log("successfully logged in!", jsonResponse);
     } catch (error) {
       console.log(error.message);
