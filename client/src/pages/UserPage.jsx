@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useCtx } from "../store/userContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 function UserPage() {
   const [loader, setLoader] = useState(true);
   const [stats, setStats] = useState({});
+  const [reload, setReload] = useState(false);
   const ctx = useCtx();
   const navigate = useNavigate();
   useEffect(() => {
@@ -15,7 +16,7 @@ function UserPage() {
       const authId = localStorage.getItem("authId");
       getStats(authId);
     }
-  }, []);
+  }, [reload]);
 
   async function getStats(token) {
     const laodingToast = toast.loading("Loading stats...");
@@ -73,7 +74,35 @@ function UserPage() {
       console.log(error.message);
     }
   }
-  async function resetHandler() {}
+  async function resetHandler() {
+    const data = {
+      userId: stats.userId,
+      language: stats.language,
+    };
+    // const laodingToast = toast.loading("Updating...");
+    try {
+      setLoader(true);
+      const res = await fetch(`http://localhost:8000/api/user/reset`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const jsonResponse = await res.json();
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error.message);
+      }
+      if (jsonResponse.code === 1) {
+        setReload(true);
+      } else {
+        throw new Error("Can't update the language!");
+      }
+      setLoader(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
   return (
     <main className="flex flex-col justify-center items-center px-2 mt-6">
       <Toaster />
@@ -88,7 +117,7 @@ function UserPage() {
             onChange={changeLanHandler}
             className="mb-2"
           >
-            <option value="">Choose a language</option>
+            <option value="">Change language</option>
             <option value="english">English</option>
             <option value="hindi">Hindi</option>
           </select>
@@ -174,9 +203,20 @@ function UserPage() {
               </div>
             </div>
           </section>
-          <button className="mt-2" onClick={resetHandler}>
-            Reset Progress
-          </button>
+          <div className="flex justify-center items-center gap-2 mt-2">
+            <Link
+              to={"/game"}
+              className="bg-green-700 font-semibold rounded py-1 px-2 sm:text-xl"
+            >
+              Game
+            </Link>
+            <button
+              className="bg-red-700 font-semibold rounded py-1 px-2 sm:text-xl"
+              onClick={resetHandler}
+            >
+              Reset Progress
+            </button>
+          </div>
         </>
       )}
     </main>

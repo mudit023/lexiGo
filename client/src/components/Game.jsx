@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import GameOption from "./GameOption";
+import { useCtx } from "../store/userContext";
 function Game() {
   const [loader, setLoader] = useState(true);
   const [question, setQuestion] = useState({});
   const [language, setLanguage] = useState("");
   // const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const ctx = useCtx();
   useEffect(() => {
     if (
       !localStorage.getItem("isAuthenticated") ||

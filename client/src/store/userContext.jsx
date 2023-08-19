@@ -10,8 +10,8 @@ export const contextObj = {
   logout: () => {},
   user: {
     email: "",
-    score: "",
-    progress: "",
+    score: [],
+    progress: [],
     language: "",
     userId: "",
   },

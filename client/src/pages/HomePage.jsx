@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import img1 from "../assets/human.png";
+import { useCtx } from "../store/userContext";
 
 function HomePage() {
+  const [showStats, setShowStats] = useState(false);
+  const ctx = useCtx();
+  useEffect(() => {
+    if (localStorage.getItem("isAuthenticated") === "true") {
+      setShowStats(true);
+    } else {
+      setShowStats(false);
+    }
+  }, [ctx.isAuthenticated]);
   return (
     <main>
       <section className="flex justify-center items-center sm:gap-5 px-3">
@@ -27,7 +37,7 @@ function HomePage() {
             >
               Start Now
             </Link>
-            {localStorage.getItem("isAuthenticated") === "true" ? (
+            {showStats ? (
               <Link
                 to={"/user"}
                 className="bg-yellow-700 font-semibold rounded py-1 px-2 sm:text-xl"

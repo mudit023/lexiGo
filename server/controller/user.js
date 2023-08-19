@@ -135,61 +135,52 @@ const signup = async (req, res) => {
   }
 };
 
-// @desc    to get user details
-// @route   POST /api/user/login
-// @payload {authId}
+// @desc    To reset user current language progress
+// @route   POST /api/user/reset
+// @payload {userId, language}
 // @access  Private
-
-// const login = async (req, res) => {
-//   try {
-//     if (!req.body.authId) {
-//       res.status(400);
-//       throw new Error("Please send authId");
-//     }
-//     const user = await User.findOne({ authId: req.body.authId });
-//     if (!user) {
-//       res.status(400).json({ code: 0, message: "User not found" });
-//       return;
-//     }
-//     const progress = (user.attemptedQuestions.length / 50) * 100;
-//     if (user.isAdmin) {
-//       const resObj = {
-//         code: 2,
-//         message: "Admin login successful!",
-//         username: user.username,
-//         email: user.email,
-//         score: user.score,
-//         progress: progress,
-//         language: user.language,
-//         userId: user.userId,
-//       };
-//       res.status(200).json(resObj);
-//     }
-//     if (!user.isAdmin) {
-//       const resObj = {
-//         code: 1,
-//         message: "User login successful!",
-//         username: user.username,
-//         email: user.email,
-//         score: user.score,
-//         progress: progress,
-//         language: user.language,
-//         userId: user.userId,
-//       };
-//       res.status(200).json(resObj);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       error: "An error occurred while finding the user in DB",
-//       code: 0,
-//     });
-//   }
-// };
-
+const resetProgress = async (req, res) => {
+  try {
+    if (!req.body) {
+      res.status(400);
+      throw new Error("Please send body JSON!");
+    }
+    const user = await User.findById(req.body.userId);
+    if (!user) {
+      res.status(500).json({ error: "user not found!", code: 0 });
+    } else {
+      const newScore = user.score.filter(
+        (obj) => obj.language !== req.body.language
+      );
+      const newProgress = user.progress.filter(
+        (obj) => obj.language !== req.body.language
+      );
+      const newLevel = user.proficiencyLevel.filter(
+        (obj) => obj.language !== req.body.language
+      );
+      const newQuestion = user.attemptedQuestions.filter(
+        (obj) => obj.language !== req.body.language
+      );
+      user.score = newScore;
+      user.progress = newProgress;
+      user.proficiencyLevel = newLevel;
+      user.attemptedQuestions = newQuestion;
+      await user.save();
+      res
+        .status(200)
+        .json({ message: "User progress reset successully!", code: 1 });
+    }
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "Error while reseting the progress!", code: 0 });
+  }
+};
 module.exports = {
   verifyUser,
   signup,
   updateLanguage,
+  resetProgress,
   // login,
 };
