@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Img2 from "../assets/lexiGo-logo.png";
 import { useCtx } from "../store/userContext";
 
 function Navigation() {
@@ -9,10 +10,12 @@ function Navigation() {
       <div className="flex justify-center items-center">
         <Link
           to={"/"}
-          className="flex gap-2 justify-center items-center font-bold text-cyan-100"
+          className="flex gap-1 justify-center items-center font-bold text-cyan-100"
         >
+          <span className="flex justify-center items-center">
+            <img src={Img2} alt="logo" width={"30px"} height={"30px"} />
+          </span>
           <span>LexiGo</span>
-          <span></span>
         </Link>
       </div>
       <div className="flex justify-center items-center gap-2">
