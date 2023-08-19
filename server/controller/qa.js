@@ -1,4 +1,3 @@
-const connect = require("../db/dbConfig");
 const {
   calculateScore,
   proficiencyCalculator,
@@ -6,7 +5,6 @@ const {
 } = require("../helper/score");
 const Question = require("../model/questions");
 const User = require("../model/user");
-connect();
 
 // @desc    Get the first question
 // @route   GET /api/question:<lan>
@@ -75,28 +73,20 @@ const getNextQue = async (
     const attempted = await User.findById(userId).select("attemptedQuestions");
     let nextQue = {};
     if (attempted.attemptedQuestions.length > 0) {
-      console.log("In length > 0");
-
-      const unavailableQue = await User.aggregate([
-        { $unwind: "$attemptedQuestions" }, // Unwind the attemptedQuestions array
-        { $match: { "attemptedQuestions.language": language } }, // Filter for documents with language="english"
-        { $project: { "attemptedQuestions.questionId": 1 } }, // Project only the questionId
-      ]);
+      const unavailableQue = attempted.attemptedQuestions.filter(
+        (item) => item.language === language
+      );
       const unavailableQueId = unavailableQue.map((result) => {
-        const id = result.attemptedQuestions.questionId;
+        const id = result.questionId;
         return id + "";
       });
-      // console.log("attempted", unavailableQueId);
-      // const unavailableQueId = unavailableQue.correctAnswers.map(
-      //   (item) => item.questionId
-      // );
+
       nextQue = allQue.filter((item) => {
         const id = item._id + "";
         return !unavailableQueId.includes(id);
       })[0];
       // console.log("filtered questions", nextQues);
     } else {
-      console.log("In 0");
       nextQue = allQue[0];
     }
     // console.log("available questions", nextQue);

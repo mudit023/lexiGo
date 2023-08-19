@@ -12,7 +12,6 @@ const { errorHandler } = require("./middleware/errorMiddleware");
 const port = process.env.PORT || 8000;
 const app = express({});
 
-// connect();
 // async function run2() {
 //   const temp = await Questions.create();
 // }
@@ -20,7 +19,7 @@ const app = express({});
 // For POST request JSON data
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://lexi-go.vercel.app",
   })
 );
 app.use(express.json());
@@ -31,6 +30,8 @@ app.use("/api/checkanswer", apiCheckAnswer);
 
 // Overriding the default express error handling
 app.use(errorHandler);
-
-app.listen(port, () => console.log(`Server running on port: ${port}`));
-// connect();
+connect()
+  .then(() => {
+    app.listen(port, () => console.log(`Server running on port: ${port}`));
+  })
+  .catch(() => console.log("Can't connect to database!"));

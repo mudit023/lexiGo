@@ -1,5 +1,6 @@
 const User = require("../model/user");
-
+// const { connect } = require("../routes/getQuestionRoute");
+// connect();
 // @desc    used to verify user and get it details
 // @route   GET /api/user/verify
 // @params   {authtoken}
@@ -118,6 +119,7 @@ const signup = async (req, res) => {
     });
     const savedUser = await user.save();
     const resObj = {
+      username: savedUser.username,
       score: savedUser.score,
       progress: savedUser.attemptedQuestions,
       userId: savedUser._id,

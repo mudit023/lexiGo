@@ -22,7 +22,9 @@ function UserPage() {
     const laodingToast = toast.loading("Loading stats...");
     setLoader(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/user/verify/${token}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/verify/${token}`
+      );
       const jsonResponse = await res.json();
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error.message);
@@ -52,13 +54,16 @@ function UserPage() {
     // const laodingToast = toast.loading("Updating...");
     try {
       setLoader(true);
-      const res = await fetch(`http://localhost:8000/api/user/updatelan`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/updatelan`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const jsonResponse = await res.json();
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error.message);
@@ -82,13 +87,16 @@ function UserPage() {
     // const laodingToast = toast.loading("Updating...");
     try {
       setLoader(true);
-      const res = await fetch(`http://localhost:8000/api/user/reset`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/reset`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const jsonResponse = await res.json();
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error.message);

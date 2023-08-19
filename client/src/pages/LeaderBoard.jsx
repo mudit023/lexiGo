@@ -18,13 +18,16 @@ function LeaderBoard() {
   async function getLeaderboard(lan) {
     try {
       setLoader(true);
-      const res = await fetch(`http://localhost:8000/api/user/leaderboard`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ language: lan }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/leaderboard`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ language: lan }),
+        }
+      );
       const jsonResponse = await res.json();
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error.message);
@@ -45,7 +48,7 @@ function LeaderBoard() {
       {loader ? (
         <h3 className="text-2xl font-bold">Loading...</h3>
       ) : (
-        <section className="flex flex-col sm:min-w-[90vw] min-w-full">
+        <section className="flex flex-col sm:min-w-[90vw] min-w-full gap-2">
           {data.map((item, idx) => (
             <LeaderItem
               key={idx}

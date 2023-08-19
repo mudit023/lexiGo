@@ -22,7 +22,9 @@ function UserContextProvider(props) {
 
   async function login(token) {
     try {
-      const res = await fetch(`http://localhost:8000/api/user/verify/${token}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/verify/${token}`
+      );
       const jsonResponse = await res.json();
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error.message);
@@ -100,13 +102,16 @@ function UserContextProvider(props) {
       language: language,
     };
     try {
-      const res = await fetch(`http://localhost:8000/api/user/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const jsonResponse = await res.json();
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error.message);
@@ -126,6 +131,7 @@ function UserContextProvider(props) {
         localStorage.setItem("isAuthenticated", true);
         localStorage.setItem("isAdmin", false);
         localStorage.setItem("userId", jsonResponse.userId);
+        localStorage.setItem("username", jsonResponse.username);
         localStorage.setItem("language", language);
         const userData = {
           email: email,
@@ -143,7 +149,9 @@ function UserContextProvider(props) {
   }
   async function verifyUser(token) {
     try {
-      const res = await fetch(`http://localhost:8000/api/user/verify/${token}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/verify/${token}`
+      );
       const jsonResponse = await res.json();
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error.message);

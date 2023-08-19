@@ -26,7 +26,9 @@ function Game() {
   async function getQuestion(lan) {
     try {
       setLoader(true);
-      const res = await fetch(`http://localhost:8000/api/question/${lan}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/question/${lan}`
+      );
       const jsonResponse = await res.json();
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error.message);
@@ -50,13 +52,16 @@ function Game() {
     try {
       setLoader(true);
       const laodingToast = toast.loading("Checking...");
-      const res = await fetch(`http://localhost:8000/api/checkanswer`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/checkanswer`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const jsonResponse = await res.json();
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error.message);
@@ -65,7 +70,11 @@ function Game() {
         toast.success(`Right answer!`, {
           id: laodingToast,
         });
-        setQuestion(jsonResponse.data);
+        if (jsonResponse.data) {
+          setQuestion(jsonResponse.data);
+        } else {
+          setQuestion({});
+        }
       } else {
         const ans = question.options.find(
           (obj) => obj.optionId === question.correctOption
@@ -82,9 +91,12 @@ function Game() {
             duration: 4000,
           }
         );
-        setQuestion(jsonResponse.data);
+        if (jsonResponse.data) {
+          setQuestion(jsonResponse.data);
+        } else {
+          setQuestion({});
+        }
       }
-      console.log(jsonResponse);
       setLoader(false);
     } catch (error) {
       console.log(error.message);
@@ -110,7 +122,7 @@ function Game() {
         <Toaster />
         {loader ? (
           <h3 className="sm:text-3xl text-2xl font-bold">Loading.....</h3>
-        ) : (
+        ) : Object.keys(question).length > 0 ? (
           <div className="max-w-[500px]">
             <div className="flex flex-col gap-1 items-end">
               <h3 className="sm:text-3xl text-2xl font-bold">
@@ -135,6 +147,8 @@ function Game() {
               ))}
             </div>
           </div>
+        ) : (
+          <p>No more questions. You are pro!</p>
         )}
       </section>
     </main>
