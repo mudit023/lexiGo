@@ -112,9 +112,18 @@ function Game() {
           <h3 className="sm:text-3xl text-2xl font-bold">Loading.....</h3>
         ) : (
           <div className="max-w-[500px]">
-            <h3 className="sm:text-3xl text-2xl font-bold">
-              {question.questionText}
-            </h3>
+            <div className="flex flex-col gap-1 items-end">
+              <h3 className="sm:text-3xl text-2xl font-bold">
+                {question.questionText}
+              </h3>
+              <span className="p-1 bg-slate-700 rounded text-xs">
+                {question.difficulty === 1
+                  ? "Easy"
+                  : question.difficulty === 2
+                  ? "Medium"
+                  : "Hard"}
+              </span>
+            </div>
             <div className="flex flex-col gap-3 justify-center items-start mt-6">
               {question.options.map((item, idx) => (
                 <GameOption

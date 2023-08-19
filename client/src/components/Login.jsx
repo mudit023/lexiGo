@@ -27,7 +27,7 @@ function Login() {
 
   useEffect(() => {
     if (localStorage.getItem("isAuthenticated") === "true") {
-      navigate("/game");
+      navigate("/");
     }
   }, []);
 
@@ -65,7 +65,7 @@ function Login() {
         id: laodingToast,
       });
       setTimeout(() => {
-        navigate("/game");
+        navigate("/");
       }, 2000);
       console.log("successfully logged in!", jsonResponse);
     } catch (error) {

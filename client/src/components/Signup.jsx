@@ -31,7 +31,7 @@ function Signup() {
 
   useEffect(() => {
     if (localStorage.getItem("isAuthenticated") === "true") {
-      navigate("/game");
+      navigate("/");
     }
   }, []);
 
@@ -75,7 +75,7 @@ function Signup() {
         id: laodingToast,
       });
       setTimeout(() => {
-        navigate(`/game`);
+        navigate(`/`);
       }, 2000);
       console.log("successfully signed up!", jsonResponse);
     } catch (error) {
