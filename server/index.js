@@ -5,7 +5,6 @@ const cors = require("cors");
 const apiQuestion = require("./routes/getQuestionRoute");
 const apiCheckAnswer = require("./routes/checkAnswer");
 const apiUser = require("./routes/user");
-const apiLeaderboard = require("./routes/leaderboard");
 const { errorHandler } = require("./middleware/errorMiddleware");
 // const Questions = require("./model/questions");
 // const User = require("./model/user");
@@ -27,7 +26,6 @@ app.use(
 app.use(express.json());
 
 app.use("/api/user", apiUser);
-app.use("/api/leaderboard", apiLeaderboard);
 app.use("/api/question", apiQuestion);
 app.use("/api/checkanswer", apiCheckAnswer);
 

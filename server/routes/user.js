@@ -4,6 +4,7 @@ const {
   signup,
   updateLanguage,
   resetProgress,
+  getLeaderBoard,
 } = require("../controller/user");
 
 const router = express.Router();
@@ -13,6 +14,7 @@ router.post("/signup", signup);
 router.get("/login/:token", verifyUser);
 router.post("/updatelan", updateLanguage);
 router.post("/reset", resetProgress);
+router.post("/leaderboard", getLeaderBoard);
 // router.get("/", getDetails);
 
 module.exports = router;

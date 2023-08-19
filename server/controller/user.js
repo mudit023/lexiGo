@@ -177,10 +177,50 @@ const resetProgress = async (req, res) => {
       .json({ error: "Error while reseting the progress!", code: 0 });
   }
 };
+
+// @desc    To get the user's language leaderboard
+// @route   POST /api/user/leaderboard
+// @payload {language}
+// @access  Private
+const getLeaderBoard = async (req, res) => {
+  try {
+    if (!req.body) {
+      res.status(400);
+      throw new Error("Please send body JSON!");
+    }
+    const users = await User.aggregate([
+      // Match documents with score.language equal to "english"
+      { $match: { "score.language": req.body.language } },
+      // Unwind the score array to work with its elements
+      { $unwind: "$score" },
+      // Match only the documents with score.language equal to "english"
+      { $match: { "score.language": req.body.language } },
+      // Sort the documents by score.score in descending order
+      { $sort: { "score.score": -1 } },
+    ]);
+    if (users.length <= 0) {
+      res.status(200).json({ code: 1, message: "Empty Leaderboard!" });
+    } else {
+      const resArr = users.map((item) => {
+        return {
+          username: item.username,
+          score: item.score,
+          level: item.proficiencyLevel,
+        };
+      });
+      res.status(200).json({ code: 1, message: "Data received", resArr });
+    }
+    // console.log(users);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
 module.exports = {
   verifyUser,
   signup,
   updateLanguage,
   resetProgress,
+  getLeaderBoard,
   // login,
 };
