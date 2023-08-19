@@ -44,5 +44,6 @@ It's a language learning application built on MERN stack. The frontend is hosted
 
 ## What can be done more
 
-- Admin portal to create, delete, and edit langauges.
+- Admin portal to create, delete, and edit questions and languages.
 - A global leaderboard irrespective of the language.
+- UI improvements
