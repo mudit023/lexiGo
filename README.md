@@ -10,7 +10,7 @@ It's a language learning application built on MERN stack. The frontend is hosted
 
 ## Installation
 
-- `git clone <this_url> && cd <repo_name>`
+- `git clone <this_url>`
 - install npm on client and server
   - `cd client`
   - `npm install`
