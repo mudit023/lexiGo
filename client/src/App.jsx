@@ -9,6 +9,7 @@ import UserContextProvider from "./store/UserContextProvider";
 import Game from "./components/Game";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
+import LeaderBoard from "./pages/LeaderBoard";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/game" element={<Game />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/leaderboard" element={<LeaderBoard />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {/* <Footer /> */}

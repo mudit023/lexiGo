@@ -111,16 +111,24 @@ function UserPage() {
         <p>Loading...</p>
       ) : (
         <>
-          <select
-            name="language"
-            id="lan-select"
-            onChange={changeLanHandler}
-            className="mb-2"
-          >
-            <option value="">Change language</option>
-            <option value="english">English</option>
-            <option value="hindi">Hindi</option>
-          </select>
+          <div className="flex justify-center items-center flex-wrap gap-2 mb-2">
+            <Link
+              to={"/leaderboard"}
+              className="bg-yellow-500 font-semibold rounded py-1 px-2 sm:text-xl"
+            >
+              Leaderboard
+            </Link>
+            <select
+              name="language"
+              id="lan-select"
+              onChange={changeLanHandler}
+              className="py-1 px-2 sm:text-xl rounded"
+            >
+              <option value="">Change language</option>
+              <option value="english">English</option>
+              <option value="hindi">Hindi</option>
+            </select>
+          </div>
           <section className="flex flex-col justify-center items-start gap-4 max-w-[600px] sm:border sm:p-4 sm:rounded-[24px]">
             <div className="flex justify-center items-center sm:gap-4 flex-wrap gap-1">
               <div className="flex gap-1 bg-[#272729] shadow-md sm:p-4 p-2 rounded-lg">
