@@ -4,11 +4,11 @@
 
 It's a language learning application built on the MERN stack. The frontend is hosted on **vercel** and the backend is hosted on the **railway**.
 
-## Live Deployment Link: [http://lexi-go.vercel.app/](http://lexi-go.vercel.app/)
+## Live Deployment Link🚀: [http://lexi-go.vercel.app/](http://lexi-go.vercel.app/)
 
 ![lexiGo](./assets/Screenshot%202023-08-19%20183204.png)
 
-## Installation
+## Installation💻
 
 - `git clone <this_url>`
 - install npm on client and server
@@ -16,13 +16,13 @@ It's a language learning application built on the MERN stack. The frontend is ho
   - `npm install`
   - `cd server`
   - `npm install`
-- Configure Server
+- Configure Server🔒
   - Create `.env` file in `server`
   - Update `.env` file with `MONGODB_URL=<YOUR MONGODB URL>`
   - Update `.env` file with `NODE_ENV=development` and change this to production while deploying env variables.
   - Update `.env` file with `PORT=8000`
   - Update the API endpoint in the `index.js` in `cors` to `http://localhost:5173`
-- Configure Client
+- Configure Client🧑‍💻
   - Create `.env` file in `client`
   - Update `.env` file with `VITE_REACT_APP_FIREBASE_API_KEY=<YOUR FIREBASE API KEY>`
   - Update `.env` file with `VITE_REACT_APP_API_ENDPOINT=http://localhost:8000/api`
@@ -30,7 +30,7 @@ It's a language learning application built on the MERN stack. The frontend is ho
   - Development Mode (Client only): `cd client` then `npm run dev` and then open `http://localhost:5173` in a browser
   - Development Mode (Server only): `cd server` then `npm run dev`
 
-## Features
+## Features🔥
 
 - You can learn multiple languages.
 - Progress of each language will be stored separately.
@@ -42,8 +42,18 @@ It's a language learning application built on the MERN stack. The frontend is ho
 
   > This is not it, I wanted to add more things but due to time constraints couldn't. I have added functionality for admin privileges but haven't designed the UI and API for it.
 
-## What can be done more
+## What can be done more⚒️
 
 - Admin portal to create, delete, and edit questions, and add more languages.
 - A global leaderboard irrespective of the language.
 - UI improvements
+
+## Tech Used🖥️
+
+- ReactJS⚛️
+- TailwindCSS🙌
+- Firebase: For user authentication🔐
+- NodeJS🍃
+- ExpressJS🚅
+- Mongoose🙈
+- MongoDB🍀
