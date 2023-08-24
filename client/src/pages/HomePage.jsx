@@ -70,7 +70,7 @@ function HomePage() {
             </h1>
             <p className="sm:max-w-[70%] max-w-[90%] sm:text-lg text-sm mt-3 sm:text-left text-center">
               LexiGo is the only app you need to learn your second language. An
-              exciting way to learn a new laguage!
+              exciting way to learn a new language!
             </p>
           </div>
           <div className="flex justify-center items-center gap-3 flex-wrap">
