@@ -73,27 +73,27 @@ function HomePage() {
               exciting way to learn a new laguage!
             </p>
           </div>
-          <div className="flex justify-center items-center gap-2 flex-wrap">
+          <div className="flex justify-center items-center gap-3 flex-wrap">
             <Link
               to={`${
                 localStorage.getItem("isAuthenticated") === "true"
                   ? "/game"
                   : "/login"
               }`}
-              className="bg-green-700 font-semibold rounded py-1 px-2 sm:text-xl"
+              className="bg-green-700 font-semibold rounded py-1 px-2 sm:text-xl shadow-md shadow-slate-900"
             >
               Start Now
             </Link>
             <a
               href="#rules"
-              className="bg-yellow-700 font-semibold rounded py-1 px-2 sm:text-xl"
+              className="bg-yellow-700 font-semibold rounded py-1 px-2 sm:text-xl shadow-md shadow-slate-900"
             >
               Rules & Features
             </a>
             {showStats ? (
               <Link
                 to={"/user"}
-                className="bg-yellow-700 font-semibold rounded py-1 px-2 sm:text-xl"
+                className="bg-yellow-700 font-semibold rounded py-1 px-2 sm:text-xl shadow-md shadow-slate-900"
               >
                 Your Stats
               </Link>

@@ -48,7 +48,7 @@ function LeaderBoard() {
       {loader ? (
         <h3 className="text-2xl font-bold">Loading...</h3>
       ) : (
-        <section className="flex flex-col sm:min-w-[90vw] min-w-full gap-2">
+        <section className="flex flex-col sm:min-w-[90vw] min-w-full gap-4">
           {data.map((item, idx) => (
             <LeaderItem
               key={idx}

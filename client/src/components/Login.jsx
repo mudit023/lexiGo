@@ -99,14 +99,14 @@ function Login() {
             onBlur={focusHandler}
             placeholder="Password"
             required
-            className={`py-1 px-2 outline-none rounded text-white bg-[#242424] border-[2px] border-solid border-white ${
+            className={`py-1 px-2 outline-none rounded text-white bg-[#242424] border-[2px] border-solid ${
               !validPassword.valid && validPassword.active
-                ? "border-[2px] border-solid border-red-600"
-                : ""
+                ? "border-red-500"
+                : "border-white"
             }`}
           />
           {!validPassword.valid && validPassword.active ? (
-            <p className="text-red-700 text-[10px] leading-3 font-light max-w-[300px] text-center">
+            <p className="text-red-500 text-[10px] leading-3 font-medium max-w-[300px] text-center">
               {VALID_PASSWORD}
             </p>
           ) : (
