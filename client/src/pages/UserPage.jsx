@@ -130,11 +130,15 @@ function UserPage() {
               name="language"
               id="lan-select"
               onChange={changeLanHandler}
-              className="py-1 px-2 sm:text-xl rounded"
+              className="py-1 px-2 sm:text-xl rounded bg-[#242424] border-[2px] border-solid border-white"
             >
               <option value="">Change language</option>
-              <option value="english">English</option>
-              <option value="hindi">Hindi</option>
+              <option value="english" className="bg-[#242424]">
+                English
+              </option>
+              <option value="hindi" className="bg-[#242424]">
+                Hindi
+              </option>
             </select>
           </div>
           <section className="flex flex-col justify-center items-start gap-4 max-w-[600px] sm:border sm:p-4 sm:rounded-[24px]">

@@ -1,0 +1,28 @@
+.accordion {
+  box-shadow: 0px 1px 5px #131313aa;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #131313;
+  cursor: pointer;
+}
+
+.icon {
+  transition: transform 0.3s;
+}
+
+.icon.open {
+  transform: rotate(-180deg);
+}
+
+.accordion-content {
+  max-width: 400px;
+  padding: 10px 20px;
+}

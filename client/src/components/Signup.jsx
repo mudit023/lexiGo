@@ -100,7 +100,7 @@ function Signup() {
             onChange={(e) => setDetail({ ...detail, email: e.target.value })}
             placeholder="Email"
             required
-            className="py-1 px-2 border-none outline-none rounded text-white"
+            className="py-1 px-2 outline-none rounded text-white bg-[#242424] border-[2px] border-solid border-white"
           />
           <input
             type="password"
@@ -109,10 +109,10 @@ function Signup() {
             onBlur={focusHandler}
             placeholder="Password"
             required
-            className={`py-1 px-2 outline-none rounded text-white ${
+            className={`py-1 px-2 outline-none rounded text-white bg-[#242424] border-[2px] border-solid border-white ${
               !validPassword.valid && validPassword.active
                 ? "border-[2px] border-solid border-red-600"
-                : "border-none"
+                : ""
             }`}
           />
           {!validPassword.valid && validPassword.active ? (
@@ -127,10 +127,17 @@ function Signup() {
             id="lan-select"
             onChange={(e) => setDetail({ ...detail, language: e.target.value })}
             required
+            className="bg-[#242424] border-[2px] border-solid border-white rounded"
           >
-            <option value="">Choose a language</option>
-            <option value="english">English</option>
-            <option value="hindi">Hindi</option>
+            <option value="" className="bg-[#242424]">
+              Choose a language
+            </option>
+            <option value="english" className="bg-[#242424]">
+              English
+            </option>
+            <option value="hindi" className="bg-[#242424]">
+              Hindi
+            </option>
           </select>
           <button
             type="submit"
